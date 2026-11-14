@@ -1,0 +1,25 @@
+appId: io.github.hamsket
+productName: Hamsket
+directories:
+  output: dist
+  buildResources: build
+files:
+  - out/**
+  - resources/**
+  - package.json
+asar: true
+mac:
+  category: public.app-category.productivity
+  target: [dmg, zip]
+  hardenedRuntime: true
+  extendInfo:
+    NSCameraUsageDescription: Web apps like Teams and Meet use the camera for calls.
+    NSMicrophoneUsageDescription: Web apps like Teams, Meet and AI voice modes use the microphone.
+win:
+  target: [nsis, portable]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+linux:
+  target: [AppImage, deb]
+  category: Network
