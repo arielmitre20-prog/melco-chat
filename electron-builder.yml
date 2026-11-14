@@ -23,3 +23,4 @@ nsis:
 linux:
   target: [AppImage, deb]
   category: Network
+  maintainer: arielmitre20-prog <arielmitre20-prog@users.noreply.github.com>
