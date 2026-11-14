@@ -1,14 +1,14 @@
 /**
  * Preload injected into every web app view (isolated world, sandboxed).
  *
- * It swaps the page's Notification API for a shim so Hamsket can route web
+ * It swaps the page's Notification API for a shim so Melcochat can route web
  * notifications through native OS notifications — labelled with the account,
  * respecting per-account mute and Do Not Disturb, and switching to the right
  * account when clicked.
  */
 import { contextBridge, ipcRenderer } from 'electron'
 
-const TAG = '__hamsket'
+const TAG = '__melcochat'
 
 // Runs in the page's main world, before any page script.
 function installNotificationShim(tag: string): void {
@@ -18,7 +18,7 @@ function installNotificationShim(tag: string): void {
   const post = (id: number, title: unknown, opts?: NotificationOptions) =>
     window.postMessage({ [tag]: 'notify', id, title: String(title ?? ''), body: String(opts?.body ?? ''), silent: !!opts?.silent }, '*')
 
-  class HamsketNotification extends EventTarget {
+  class MelcochatNotification extends EventTarget {
     static get permission(): NotificationPermission {
       return 'granted'
     }
@@ -56,7 +56,7 @@ function installNotificationShim(tag: string): void {
     close(): void {}
   }
 
-  Object.defineProperty(window, 'Notification', { value: HamsketNotification, writable: true, configurable: true })
+  Object.defineProperty(window, 'Notification', { value: MelcochatNotification, writable: true, configurable: true })
 
   if ('ServiceWorkerRegistration' in window) {
     ServiceWorkerRegistration.prototype.showNotification = function (title: string, opts?: NotificationOptions) {

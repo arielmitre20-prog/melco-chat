@@ -1,21 +1,26 @@
-# Hamsket
+<p align="center"><img src="build/icon.png" width="128" alt="Melcochat logo: a white cactus on a cyan-to-purple circle"></p>
+
+# Melcochat
 
 All your web apps and AI chats in one clean window, with **true multi-account isolation**. You can keep three ChatGPT accounts, two Gemini accounts, Claude and Venice signed in side by side, next to WhatsApp, Gmail and Slack.
 
-![Hamsket, light theme](docs/screenshots/light.png)
+![Melcochat, light theme](docs/screenshots/light.png)
 
-> **1.0 rewrite.** This branch rebuilds [Hamsket](https://github.com/TheGoddessInari/hamsket) from scratch. The original ran on ExtJS/Sencha Cmd and Electron 20 (2022). This version uses Electron 45, React 19, Vite 8 and TypeScript. The full upstream history is still in git.
+> **Melcochat is a fork of [Hamsket](https://github.com/TheGoddessInari/hamsket), rebuilt from scratch.** The original ran on ExtJS/Sencha Cmd and Electron 20 (2022). This version uses Electron 45, React 19, Vite 8 and TypeScript. The full upstream history is still in git.
+
+The app logo comes from [`build/logo.svg`](build/logo.svg). Regenerate every icon size with `npx electron scripts/render-icons.cjs`.
 
 ## What's new
 
-| | Hamsket 0.6 (2022) | Hamsket 1.0 |
+| | Hamsket 0.6 (2022) | Melcochat 1.0 |
 |---|---|---|
 | Runtime | Electron 20, `<webview>` | Electron 45, `WebContentsView` |
 | UI | ExtJS 6 (needs Sencha Cmd) | React 19 + Vite 8, TypeScript |
 | Accounts | One per service in practice | Unlimited per service. Each has its own persistent session |
 | AI chats | none | 27, including ChatGPT, Claude, Gemini and Venice |
 | Look | 2016 tab strip | Sidebar with macOS-style restraint: Mica on Windows 11, vibrancy on macOS, light and dark |
-| Logos | ~100 bundled PNGs (many dead services) | Live site favicons. Brand-color monogram until a favicon loads |
+| Logo | Hamster | Cactus, in the same cyan-to-purple gradient |
+| Service logos | ~100 bundled PNGs (many dead services) | Live site favicons. Brand-color monogram until a favicon loads |
 | Dead services | HipChat, Stride, Hangouts, Skype, Flowdock, Freenode… | Removed |
 
 ## Features
@@ -74,7 +79,7 @@ npm run typecheck
 npm run dist       # installers for the current OS → dist/
 ```
 
-Set `HAMSKET_USER_DATA=/some/folder` to run with a separate profile (portable mode or testing).
+Set `MELCOCHAT_USER_DATA=/some/folder` to run with a separate profile (portable mode or testing).
 
 ### Architecture
 
@@ -86,7 +91,7 @@ src/
     userAgent.ts  Chrome UA / Google sign-in workaround
     store.ts      JSON persistence (atomic writes) in userData/
   preload/
-    index.ts      typed bridge for the UI (window.hamsket)
+    index.ts      typed bridge for the UI (window.melcochat)
     service.ts    injected into web apps: Notification shim → native notifications
   renderer/     React UI (sidebar, toolbar, sheets, quick switcher)
   shared/       types, service catalog, unread parsing
@@ -97,14 +102,13 @@ The React UI owns the state and sends `views:sync(accounts, activeId, bounds)`. 
 ## Roadmap
 
 - Per-service unread hooks for apps that don't put counts in the title
-- Import from Hamsket 0.6 / Rambox / Ferdium
+- Import accounts from Hamsket 0.6 / Rambox / Ferdium
 - App lock (master password) — 0.6 had one
 - Workspaces (switch whole sets of accounts)
 - Split view: two accounts side by side
 - "Ask all": send one prompt to several AI chats at once
-- New app icon. The 0.6 hamster is still used for now
 - Auto-update and signed builds
 
 ## License
 
-GPL-3.0, same as upstream. See [LICENSE](LICENSE). Hamsket started as a fork of Rambox (GPL-3.0). Service names belong to their owners. No third-party logos are bundled.
+GPL-3.0, same as upstream. See [LICENSE](LICENSE). Melcochat is a fork of Hamsket, which was itself a fork of Rambox (both GPL-3.0). Service names belong to their owners. No third-party logos are bundled.

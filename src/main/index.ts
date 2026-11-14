@@ -23,10 +23,10 @@ const isWin = process.platform === 'win32'
 const supportsMica = isWin && Number(release().split('.')[2] ?? 0) >= 22000
 const resource = (name: string) => join(app.getAppPath(), 'resources', name)
 
-app.setName('Hamsket')
+app.setName('Melcochat')
 // Portable mode / testing: keep all data in a custom folder.
-if (process.env.HAMSKET_USER_DATA) app.setPath('userData', process.env.HAMSKET_USER_DATA)
-if (isWin) app.setAppUserModelId('io.github.hamsket')
+if (process.env.MELCOCHAT_USER_DATA) app.setPath('userData', process.env.MELCOCHAT_USER_DATA)
+if (isWin) app.setAppUserModelId('io.github.arielmitre20.melcochat')
 
 if (!app.requestSingleInstanceLock()) {
   app.quit()
@@ -93,7 +93,7 @@ function createWindow(): void {
     minWidth: 720,
     minHeight: 480,
     show: false,
-    title: 'Hamsket',
+    title: 'Melcochat',
     icon: resource('icon.png'),
     backgroundColor: isMac || supportsMica ? '#00000000' : dark ? '#1c1c1e' : '#f5f5f7',
     titleBarStyle: isMac ? 'hiddenInset' : 'hidden',
@@ -150,7 +150,7 @@ function buildTray(): void {
   if (tray) return
   const img = nativeImage.createFromPath(resource(isMac ? 'trayTemplate.png' : 'tray.png'))
   tray = new Tray(img.isEmpty() ? nativeImage.createEmpty() : img)
-  tray.setToolTip('Hamsket')
+  tray.setToolTip('Melcochat')
   tray.on('click', () => (win.isVisible() && win.isFocused() ? win.hide() : showWindow()))
   updateTrayMenu()
 }
@@ -158,7 +158,7 @@ function buildTray(): void {
 function updateTrayMenu(): void {
   tray?.setContextMenu(
     Menu.buildFromTemplate([
-      { label: 'Show Hamsket', click: showWindow },
+      { label: 'Show Melcochat', click: showWindow },
       { type: 'separator' },
       { label: 'Do Not Disturb', type: 'checkbox', checked: state.settings.doNotDisturb, click: () => command({ type: 'toggle-dnd' }) },
       { type: 'separator' },
@@ -283,7 +283,7 @@ function registerIpc(): void {
     if (isMac) app.dock?.setBadge(show ? (count > 0 ? String(count) : indirect ? '•' : '') : '')
     else if (isWin) win.setOverlayIcon(show && dataUrl ? nativeImage.createFromDataURL(dataUrl) : null, count ? `${count} unread` : '')
     else app.setBadgeCount(show ? count : 0)
-    tray?.setToolTip(count ? `Hamsket — ${count} unread` : 'Hamsket')
+    tray?.setToolTip(count ? `Melcochat — ${count} unread` : 'Melcochat')
     if (isWin && count > 0 && show && !win.isFocused()) win.flashFrame(true)
   })
 

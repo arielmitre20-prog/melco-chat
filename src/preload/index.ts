@@ -28,6 +28,6 @@ const api = {
   onHibernated: (fn: (ids: string[]) => void) => on('accounts:hibernated', fn)
 }
 
-export type HamsketApi = typeof api
+export type MelcochatApi = typeof api
 
-contextBridge.exposeInMainWorld('hamsket', api)
+contextBridge.exposeInMainWorld('melcochat', api)

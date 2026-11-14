@@ -84,7 +84,7 @@ export function SettingsSheet({
         {toggle('spellcheck', 'Spell checking')}
       </div>
 
-      <div style={{ textAlign: 'center', color: 'var(--text-3)', fontSize: 11 }}>Hamsket {version} · GPL-3.0</div>
+      <div style={{ textAlign: 'center', color: 'var(--text-3)', fontSize: 11 }}>Melcochat {version} · GPL-3.0</div>
     </Sheet>
   )
 }

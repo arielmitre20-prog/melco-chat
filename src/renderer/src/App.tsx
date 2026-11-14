@@ -11,7 +11,7 @@ import { Tile } from './components/Tile'
 import { Toolbar } from './components/Toolbar'
 import { displayName, drawBadge, serviceName } from './util'
 
-const api = window.hamsket
+const api = window.melcochat
 
 type SheetState =
   | { kind: 'add'; serviceId?: string }
@@ -221,7 +221,7 @@ export function App({ boot }: { boot: Boot }) {
           await api.clearAccount(a)
         return
       case 'remove':
-        if (await api.confirm(`Remove “${displayName(a)}”?`, 'The account and all of its session data will be deleted from Hamsket.', 'Remove')) {
+        if (await api.confirm(`Remove “${displayName(a)}”?`, 'The account and all of its session data will be deleted from Melcochat.', 'Remove')) {
           await api.removeAccount(a)
           removeFromState(a.id)
         }
@@ -334,7 +334,7 @@ function Welcome({ onQuick, onBrowse }: { onQuick: (id: string) => void; onBrows
   return (
     <div className="welcome">
       <img src="./icon.png" width={72} height={72} alt="" draggable={false} />
-      <h1>Welcome to Hamsket</h1>
+      <h1>Welcome to Melcochat</h1>
       <p>
         All your web apps and AI chats in one calm window. Every account gets its own isolated session, so you can keep several ChatGPT,
         Claude or Gemini accounts signed in at once.

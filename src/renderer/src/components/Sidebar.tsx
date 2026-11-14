@@ -55,7 +55,7 @@ export function Sidebar(p: Props) {
   return (
     <aside className={`sidebar ${p.collapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-top drag">
-        <span className="brand">Hamsket</span>
+        <span className="brand">Melcochat</span>
         <button className="icon-btn" title="Toggle sidebar (Ctrl/⌘ \)" onClick={p.onToggleCollapse}>
           <PanelLeft size={16} />
         </button>

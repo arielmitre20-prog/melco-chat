@@ -1,13 +1,14 @@
 {
-  "name": "hamsket",
-  "productName": "Hamsket",
+  "name": "melcochat",
+  "productName": "Melcochat",
   "version": "1.0.0-alpha.1",
   "description": "Every web app and AI chat you use, in one clean window — with true multi-account isolation.",
   "main": "out/main/index.js",
   "private": true,
   "license": "GPL-3.0",
-  "author": "Hamsket contributors",
-  "homepage": "https://github.com/TheGoddessInari/hamsket",
+  "author": "Melcochat contributors",
+  "repository": { "type": "git", "url": "https://github.com/arielmitre20-prog/melco-chat.git" },
+  "homepage": "https://github.com/arielmitre20-prog/melco-chat",
   "engines": {
     "node": ">=22"
   },

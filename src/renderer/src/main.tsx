@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import './styles.css'
 
-void window.hamsket.load().then((boot) => {
+void window.melcochat.load().then((boot) => {
   const root = document.documentElement
   root.dataset.platform = boot.platform
   root.dataset.material = boot.material

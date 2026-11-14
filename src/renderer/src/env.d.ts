@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
-import type { HamsketApi } from '../../preload/index'
+import type { MelcochatApi } from '../../preload/index'
 
 declare global {
   interface Window {
-    hamsket: HamsketApi
+    melcochat: MelcochatApi
   }
 }

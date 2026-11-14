@@ -1,5 +1,5 @@
-appId: io.github.hamsket
-productName: Hamsket
+appId: io.github.arielmitre20.melcochat
+productName: Melcochat
 directories:
   output: dist
   buildResources: build
