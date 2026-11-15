@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { parseTitleUnread } from '../src/shared/unread.ts'
 import { CATALOG, resolveUrl } from '../src/shared/catalog.ts'
+import { isGoogleRejection } from '../src/main/userAgent.ts'
 
 test('parses unread counts from common title formats', () => {
   assert.deepEqual(parseTitleUnread('(3) WhatsApp'), { count: 3, indirect: false })
@@ -35,4 +36,11 @@ test('template URLs resolve from bare values or full URLs', () => {
   assert.equal(resolveUrl(get('mattermost'), 'https://chat.example.com/'), 'https://chat.example.com/')
   assert.equal(resolveUrl(get('custom'), 'app.example.com/x'), 'https://app.example.com/x')
   assert.equal(resolveUrl(get('chatgpt')), 'https://chatgpt.com/')
+})
+
+test("recognises Google's embedded-browser rejection page", () => {
+  assert.equal(isGoogleRejection('https://accounts.google.com/v3/signin/rejected?continue=x&rrk=46'), true)
+  assert.equal(isGoogleRejection('https://accounts.google.com/v3/signin/identifier?continue=x'), false)
+  assert.equal(isGoogleRejection('https://example.com/signin/rejected'), false)
+  assert.equal(isGoogleRejection('not a url'), false)
 })

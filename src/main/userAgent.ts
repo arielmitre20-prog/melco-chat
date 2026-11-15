@@ -39,3 +39,13 @@ export const isGoogleAuth = (url: string): boolean => {
     return false
   }
 }
+
+/** Google's "Couldn't sign you in — this browser or app may not be secure" page. */
+export const isGoogleRejection = (url: string): boolean => {
+  try {
+    const u = new URL(url)
+    return u.hostname === 'accounts.google.com' && u.pathname.includes('/signin/rejected')
+  } catch {
+    return false
+  }
+}

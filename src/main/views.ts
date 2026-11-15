@@ -4,6 +4,7 @@ import {
   WebContentsView,
   clipboard,
   desktopCapturer,
+  dialog,
   session as electronSession,
   shell,
   type MenuItemConstructorOptions,
@@ -14,7 +15,7 @@ import { join } from 'node:path'
 import { getService } from '../shared/catalog'
 import { parseTitleUnread } from '../shared/unread'
 import type { Account, Bounds, Settings, ViewStatus } from '../shared/types'
-import { chromeUserAgent, firefoxUserAgent, isGoogleAuth } from './userAgent'
+import { chromeUserAgent, firefoxUserAgent, isGoogleAuth, isGoogleRejection } from './userAgent'
 
 interface Entry {
   view: WebContentsView
@@ -47,6 +48,7 @@ const isHttp = (url: string) => /^https?:\/\//i.test(url)
 export class ViewManager {
   private entries = new Map<string, Entry>()
   private configured = new Set<string>()
+  private googleWarned = new Set<string>()
   private activeId: string | null = null
   private bounds: Bounds = { x: 0, y: 0, width: 0, height: 0 }
   private overlay = false
@@ -280,7 +282,10 @@ export class ViewManager {
     })
     wc.on('did-start-loading', () => this.emit(e, { loading: true, crashed: false }))
     wc.on('did-stop-loading', () => this.emit(e, { loading: false }))
-    wc.on('did-navigate', () => this.emit(e, {}))
+    wc.on('did-navigate', (_ev, url) => {
+      this.emit(e, {})
+      if (isGoogleRejection(url)) this.googleBlocked(e)
+    })
     wc.on('did-navigate-in-page', () => this.emit(e, {}))
     wc.on('render-process-gone', () => this.emit(e, { crashed: true, loading: false }))
     wc.on('before-input-event', (ev, input) => {
@@ -306,7 +311,40 @@ export class ViewManager {
       return { action: 'deny' }
     })
 
+    // "Continue with Google" popups hit the same block; close them and explain.
+    wc.on('did-create-window', (popup) => {
+      popup.webContents.on('did-navigate', (_ev, url) => {
+        if (!isGoogleRejection(url)) return
+        popup.close()
+        this.googleBlocked(e)
+      })
+    })
+
     wc.on('context-menu', (_ev, p) => this.contextMenu(wc, p))
+  }
+
+  /**
+   * Google refuses sign-in inside embedded browsers, whatever user agent they present.
+   * Instead of leaving the user on a dead end, explain once and offer the real browser.
+   */
+  private googleBlocked(e: Entry): void {
+    if (this.googleWarned.has(e.account.id)) return
+    this.googleWarned.add(e.account.id)
+    const name = getService(e.account.serviceId)?.name ?? 'This service'
+    void dialog
+      .showMessageBox(this.win, {
+        type: 'info',
+        title: 'Google blocked the sign-in',
+        message: "Google doesn't allow signing in from inside apps like Melcochat.",
+        detail:
+          `This is a Google security policy for embedded browsers, not a problem with your account. You can keep using ${name} in your regular browser.`,
+        buttons: ['Open in Browser', 'Close'],
+        defaultId: 0,
+        cancelId: 1
+      })
+      .then(({ response }) => {
+        if (response === 0) void shell.openExternal(e.account.url)
+      })
   }
 
   private contextMenu(wc: WebContents, p: Electron.ContextMenuParams): void {

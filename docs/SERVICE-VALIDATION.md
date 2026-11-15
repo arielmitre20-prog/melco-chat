@@ -10,10 +10,23 @@ Para cada servicio: añade **dos cuentas** distintas y comprueba que no se mezcl
 |---|---|---|---|---|---|
 | ChatGPT | [ ] | [ ] | [ ] | n/a | |
 | Claude | [ ] | [ ] | [ ] | n/a | Cloudflare puede pedir verificación la primera vez |
-| Gemini | [ ] | [ ] | [ ] | n/a | Usa el UA de Firefox solo en accounts.google.com |
+| Gemini | ✗ | — | — | n/a | Google bloquea el inicio de sesión en navegadores integrados (ver abajo) |
 | Venice | [ ] | [ ] | [ ] | n/a | |
 
 Prueba también el inicio con **"Continuar con Google / Apple / Microsoft"** en ChatGPT y Claude: la ventana emergente debe abrirse dentro de la app y volver con la sesión iniciada.
+
+### Google: limitación conocida
+
+Probado el 14-11-2026: Google responde "Couldn't sign you in — This browser or app may not be secure" con cualquier identidad de navegador:
+
+- Chrome con Firefox solo en las cabeceras (la versión original);
+- Chrome completo con la marca "Google Chrome";
+- Firefox coherente en cabeceras y JavaScript, con y sin las huellas de Chrome.
+
+Afecta a Gemini, Gmail, NotebookLM, Drive, YouTube y al botón "Continuar con Google" de otros servicios. La app detecta esa página y ofrece abrir el servicio en el navegador normal.
+
+- [ ] Al llegar a la página de rechazo aparece el aviso con "Open in Browser"
+- [ ] "Open in Browser" abre el servicio en el navegador predeterminado
 
 ## 2. Mensajería y correo
 

@@ -27,7 +27,8 @@ The app logo comes from [`build/logo.svg`](build/logo.svg). Regenerate every ico
 
 - **Multi-account by design.** Every account gets its own `persist:` session partition. Cookies, local storage, IndexedDB and cache never mix between accounts. Use *Add Another Account of This Service* from the `…` menu.
 - **Account labels and colors.** "Work", "Personal", "alex@…". When a service has more than one account, a colored dot tells them apart.
-- **Sign-in that works.** The app presents a stock Chrome user agent, so it doesn't look like Electron. Google's sign-in page is served a Firefox UA, the same workaround other multi-account apps use. OAuth popups ("Continue with Google/Apple/Microsoft") open in-app and share the account's session.
+- **Sign-in that works.** The app presents a stock Chrome user agent, so it doesn't look like Electron. OAuth popups ("Continue with Apple/Microsoft") open in-app and share the account's session.
+- **Google accounts: known limitation.** Google blocks sign-in from embedded browsers ("This browser or app may not be secure"), whatever user agent the app presents. Melcochat detects that page and offers to open the service in your regular browser. Ferdium and Rambox have the same limitation.
 - **Native notifications.** Web notifications are routed through the OS and labelled with the account. Clicking one jumps to that account. Notifications can be turned off per account, and Do Not Disturb applies to all of them.
 - **Unread badges.** Counts are read from page titles and shown in the sidebar, the dock/taskbar badge and the tray tooltip.
 - **Quick switcher.** `Ctrl/⌘ K` opens a fuzzy search over your accounts that can also add new apps.
