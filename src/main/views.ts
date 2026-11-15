@@ -286,7 +286,11 @@ export class ViewManager {
       this.emit(e, {})
       if (isGoogleRejection(url)) this.googleBlocked(e)
     })
-    wc.on('did-navigate-in-page', () => this.emit(e, {}))
+    // Google's sign-in is a single-page app: the rejection usually arrives as an in-page navigation.
+    wc.on('did-navigate-in-page', (_ev, url) => {
+      this.emit(e, {})
+      if (isGoogleRejection(url)) this.googleBlocked(e)
+    })
     wc.on('render-process-gone', () => this.emit(e, { crashed: true, loading: false }))
     wc.on('before-input-event', (ev, input) => {
       if (this.onShortcut(wc, input)) ev.preventDefault()
@@ -313,11 +317,13 @@ export class ViewManager {
 
     // "Continue with Google" popups hit the same block; close them and explain.
     wc.on('did-create-window', (popup) => {
-      popup.webContents.on('did-navigate', (_ev, url) => {
+      const check = (_ev: unknown, url: string): void => {
         if (!isGoogleRejection(url)) return
         popup.close()
         this.googleBlocked(e)
-      })
+      }
+      popup.webContents.on('did-navigate', check)
+      popup.webContents.on('did-navigate-in-page', check)
     })
 
     wc.on('context-menu', (_ev, p) => this.contextMenu(wc, p))
