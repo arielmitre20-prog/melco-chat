@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Melcochat logo: a white saguaro on the original Hamsket gradient
+       (cyan #35bed6 → blue #30779c → indigo #2a3969 → purple #260841). -->
+  <defs>
+    <linearGradient id="bg" x1="0.85" y1="0.06" x2="0.18" y2="0.96">
+      <stop offset="0" stop-color="#35bed6"/>
+      <stop offset="0.42" stop-color="#30779c"/>
+      <stop offset="0.72" stop-color="#2a3969"/>
+      <stop offset="1" stop-color="#260841"/>
+    </linearGradient>
+    <clipPath id="disc">
+      <circle cx="512" cy="512" r="500"/>
+    </clipPath>
+  </defs>
+
+  <circle cx="512" cy="512" r="500" fill="url(#bg)"/>
+
+  <g clip-path="url(#disc)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- cactus body -->
+    <g stroke="#ffffff">
+      <path d="M512 300 V1100" stroke-width="168"/>
+      <path d="M512 664 H392 Q332 664 332 604 V452" stroke-width="116"/>
+      <path d="M512 548 H636 Q696 548 696 488 V352" stroke-width="116"/>
+    </g>
+    <!-- ribs, in the gradient's indigo -->
+    <g stroke="#2a3969" stroke-opacity="0.16" stroke-width="16">
+      <path d="M470 330 V1060"/>
+      <path d="M554 330 V1060"/>
+      <path d="M332 470 V600"/>
+      <path d="M696 370 V484"/>
+    </g>
+  </g>
+
+  <!-- small bloom on top -->
+  <g transform="translate(512 236)" fill="#35bed6">
+    <circle r="30" cy="-34"/>
+    <circle r="30" cx="32" cy="-10"/>
+    <circle r="30" cx="20" cy="28"/>
+    <circle r="30" cx="-20" cy="28"/>
+    <circle r="30" cx="-32" cy="-10"/>
+    <circle r="22" fill="#ffffff"/>
+  </g>
+</svg>
