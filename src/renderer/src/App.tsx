@@ -216,16 +216,26 @@ export function App({ boot }: { boot: Boot }) {
         return patchAccount(a.id, { notifications: !a.notifications })
       case 'devtools':
         return api.devtools(a.id)
-      case 'signout':
-        if (await api.confirm(`Sign out of “${displayName(a)}”?`, 'Clears cookies, storage and cache for this account only. Other accounts stay signed in.', 'Sign Out'))
-          await api.clearAccount(a)
+      case 'signout': {
+        const sharing = accounts.filter((x) => x.id !== a.id && x.partition === a.partition)
+        const detail = sharing.length
+          ? `This session is shared with ${sharing.map(displayName).join(', ')}, which will be signed out too.`
+          : 'Clears cookies, storage and cache for this account only. Other accounts stay signed in.'
+        if (await api.confirm(`Sign out of “${displayName(a)}”?`, detail, 'Sign Out')) await api.clearAccount(a)
         return
-      case 'remove':
-        if (await api.confirm(`Remove “${displayName(a)}”?`, 'The account and all of its session data will be deleted from Melcochat.', 'Remove')) {
-          await api.removeAccount(a)
+      }
+      case 'remove': {
+        // Keep the session data while another account still uses it.
+        const shared = accounts.some((x) => x.id !== a.id && x.partition === a.partition)
+        const detail = shared
+          ? 'The account will be removed. Its sign-in stays, because another account shares it.'
+          : 'The account and all of its session data will be deleted from Melcochat.'
+        if (await api.confirm(`Remove “${displayName(a)}”?`, detail, 'Remove')) {
+          if (!shared) await api.removeAccount(a)
           removeFromState(a.id)
         }
         return
+      }
     }
   }
 
@@ -306,6 +316,7 @@ export function App({ boot }: { boot: Boot }) {
       {editing && (
         <EditSheet
           account={editing}
+          accounts={accounts}
           onClose={() => setSheet(null)}
           onSave={(a) => {
             patchAccount(a.id, a)

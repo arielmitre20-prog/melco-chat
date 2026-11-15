@@ -25,6 +25,9 @@ Probado el 14-11-2026: Google responde "Couldn't sign you in — This browser or
 
 Afecta a Gemini, Gmail, NotebookLM, Drive, YouTube y al botón "Continuar con Google" de otros servicios. La app detecta esa página y ofrece abrir el servicio en el navegador normal.
 
+Google decide por riesgo: un inicio de sesión a veces pasa (NotebookLM am20 entró con la primera versión). Muchos intentos fallidos seguidos desde la misma IP lo empeoran durante horas o días. Solución: con una cuenta de Google ya iniciada, poner las demás de esa misma cuenta en *Edit → Session → Shared with …*.
+
+- [ ] Gemini compartiendo la sesión de NotebookLM entra sin iniciar sesión
 - [ ] Al llegar a la página de rechazo aparece el aviso con "Open in Browser"
 - [ ] "Open in Browser" abre el servicio en el navegador predeterminado
 

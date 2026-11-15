@@ -86,7 +86,11 @@ export class ViewManager {
 
     for (const a of accounts) {
       const existing = this.entries.get(a.id)
-      if (existing) {
+      if (existing && existing.account.partition !== a.partition) {
+        // The session changed (own ↔ shared): a view's partition is fixed, so rebuild it.
+        this.destroy(a.id)
+        if (!a.hibernated || a.id === activeId) this.create(a)
+      } else if (existing) {
         const urlChanged = existing.account.url !== a.url
         existing.account = a
         this.applyAccount(existing, urlChanged)

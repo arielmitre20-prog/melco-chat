@@ -722,7 +722,8 @@ select {
 .row .label {
   flex: 1;
 }
-.row .hint {
+.row .hint,
+.stack .hint {
   font-size: 11px;
   color: var(--text-2);
 }
